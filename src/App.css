@@ -36,3 +36,29 @@
     transform: rotate(360deg);
   }
 }
+
+ul{
+  list-style: none;
+  text-decoration: none;
+  display: flex;
+  gap: 3rem;
+}
+
+a{
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+}
+
+.Navbar{
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  border-bottom: 2.5px solid #336D82;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  align-items: center;
+}
+.logo{
+  
+  margin-right: 20%;
+}
