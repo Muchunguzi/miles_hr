@@ -3,13 +3,13 @@ import heroVid from "../assets/videos/heroVid.mp4"
 
 const HeroImage = () => {
     return (
-        <div className="heroImage relative w-full h-[75vh] overflow-hidden">
+        <div className="heroImage relative mx-auto w-full h-[75vh] overflow-hidden">
               <video
                 autoPlay
                 loop
                 muted
                 playsInline
-                className="absolute top-0 left-0 w-full h-full object-cover z-0"
+                className="heroVid absolute m-auto w-full h-full object-cover z-0"
               >
                 <source src={heroVid} type="video/mp4" />
                   Your browser does not support the video tag.
