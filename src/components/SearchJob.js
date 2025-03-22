@@ -7,25 +7,33 @@ const SearchJob = () => {
   const [loading, setLoading] = useState(false);
 
   const handleSearch = async () => {
-    const query = `https://jsearch.p.rapidapi.com/search?query=${keyword}&location=${location}&num_pages=1`;
-
+    let query = "http://localhost:5000/jobs?";
+    const filters = [];
+  
+    if (keyword) {
+      filters.push(`title_like=${keyword}`);
+    }
+  
+    if (location) {
+      filters.push(`location_like=${location}`);
+    }
+  
+    query += filters.join("&");
+  
+    setLoading(true);
     try {
-      setLoading(true);
-      const response = await fetch(query, {
-        method: "GET",
-        headers: {
-          "X-RapidAPI-Key": process.env.REACT_APP_RAPIDAPI_KEY, 
-          "X-RapidAPI-Host": process.env.REACT_APP_RAPIDAPI_HOST
-        }
-      });
-
+      const response = await fetch(query);
       const data = await response.json();
-      setResults(data.data || []);
+      setResults(data || []);
     } catch (error) {
       console.error("Error fetching jobs:", error);
+      setResults([]);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
+  
+  
 
   return (
     <div className="SearchJob p-4 max-w-2xl mx-auto">
@@ -64,9 +72,9 @@ const SearchJob = () => {
           <ul className="space-y-3">
             {results.map((job, index) => (
               <li key={index} className="border p-3 rounded shadow">
-                <h3 className="font-bold text-lg">{job.job_title}</h3>
+                <h3 className="font-bold text-lg">{job.title}</h3>
                 <p className="text-sm text-gray-600">
-                  {job.employer_name} - {job.job_city}, {job.job_country}
+                  {job.employer_name} - {job.city}, {job.country}
                 </p>
                 <a
                   href={job.job_apply_link}
