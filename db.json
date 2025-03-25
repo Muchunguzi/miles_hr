@@ -1,0 +1,29 @@
+{
+    "jobs": [
+      {
+        "id": 1,
+        "title": "Frontend Developer",
+        "company": "Tech Corp",
+        "location": "UAE"
+      },
+      {
+        "id": 2,
+        "title": "Backend Developer",
+        "company": "CodeWorks",
+        "location": "USA"
+      },
+      {
+        "id": 3,
+        "title": "UI/UX Designer",
+        "company": "Creative Studio",
+        "location": "UK"
+      },
+      {
+        "id": 4,
+        "title": "Security Officer",
+        "company": "SecureIT",
+        "location": "UAE"
+      }
+    ]
+  }
+  
