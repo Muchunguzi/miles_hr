@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import HeroImage from './components/HeroImage';
 import SearchJob from './components/SearchJob';
 
+
 function App() {
   
   const [Job , getJob] = useState("")
