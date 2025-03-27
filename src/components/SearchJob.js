@@ -1,30 +1,72 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const SearchJob = () => {
   const [keyword, setKeyword] = useState("");
   const [location, setLocation] = useState("UAE");
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [suggestions, setSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+
+  // Function to fetch autocomplete suggestions
+  const fetchSuggestions = async (input) => {
+    if (input.trim().length < 3) { 
+      setSuggestions([]); 
+      return; 
+    } 
+
+    try {
+      const response = await fetch(`http://localhost:5000/jobs?q=${encodeURIComponent(input)}`);
+      const data = await response.json();
+
+      // Filter job titles that start with the input (not just contains)
+      const jobTitles = [
+        ...new Set(
+          data
+            .map((job) => job.title)
+            .filter((title) => title.toLowerCase().startsWith(input.toLowerCase()))
+        ),
+      ];
+
+      setSuggestions(jobTitles.slice(0, 5)); // Limit suggestions to top 5
+      setShowSuggestions(true);
+    } catch (error) {
+      console.error("Error fetching suggestions:", error);
+    }
+  };
+
+  // Handle typing in search input
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setKeyword(value);
+    fetchSuggestions(value);
+  };
+
+  // Handle clicking a suggestion
+  const handleSuggestionClick = (suggestion) => {
+    setKeyword(suggestion);
+    setShowSuggestions(false);
+  };
 
   const handleSearch = async () => {
-    let query = "http://localhost:5000/jobs?";
-    const filters = [];
+    if (keyword.trim().length < 3) { 
+      setResults([]); 
+      return; 
+    } 
 
-    if (keyword) {
-      filters.push(`title_like=${keyword}`);
-    }
-
-    if (location) {
-      filters.push(`location_like=${location}`);
-    }
-
-    query += filters.join("&");
+    let query = `http://localhost:5000/jobs?q=${encodeURIComponent(keyword)}&location=${encodeURIComponent(location)}`;
 
     setLoading(true);
     try {
       const response = await fetch(query);
       const data = await response.json();
-      setResults(data || []);
+
+      // Filter jobs that match from the beginning
+      const filteredResults = data.filter((job) =>
+        job.title.toLowerCase().startsWith(keyword.toLowerCase())
+      );
+
+      setResults(filteredResults);
     } catch (error) {
       console.error("Error fetching jobs:", error);
       setResults([]);
@@ -37,14 +79,30 @@ const SearchJob = () => {
     <div className="SearchJob container mt-4">
       <h2 className="fw-bold mb-4">Find Jobs</h2>
       <div className="row g-3 mb-4">
-        <div className="col-md-5">
+        <div className="col-md-5 position-relative">
           <input
             type="text"
             placeholder="Search for a job..."
             value={keyword}
-            onChange={(e) => setKeyword(e.target.value)}
+            onChange={handleInputChange}
+            onFocus={() => setShowSuggestions(true)}
             className="form-control"
           />
+          {/* Suggestions Dropdown */}
+          {showSuggestions && suggestions.length > 0 && (
+            <ul className="list-group position-absolute w-100 shadow" style={{ zIndex: 10 }}>
+              {suggestions.map((suggestion, index) => (
+                <li
+                  key={index}
+                  className="list-group-item list-group-item-action"
+                  onClick={() => handleSuggestionClick(suggestion)}
+                  style={{ cursor: "pointer" }}
+                >
+                  {suggestion}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
         <div className="col-md-4">
           <select
