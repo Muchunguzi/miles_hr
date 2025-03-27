@@ -1,29 +1,44 @@
 {
-    "jobs": [
-      {
-        "id": 1,
-        "title": "Frontend Developer",
-        "company": "Tech Corp",
-        "location": "UAE"
-      },
-      {
-        "id": 2,
-        "title": "Backend Developer",
-        "company": "CodeWorks",
-        "location": "USA"
-      },
-      {
-        "id": 3,
-        "title": "UI/UX Designer",
-        "company": "Creative Studio",
-        "location": "UK"
-      },
-      {
-        "id": 4,
-        "title": "Security Officer",
-        "company": "SecureIT",
-        "location": "UAE"
-      }
-    ]
-  }
-  
+  "jobs": [
+    {
+      "id": 1,
+      "title": "Frontend Developer",
+      "company": "Tech Corp",
+      "city": "Dubai",
+      "country": "UAE",
+      "type": "Full-Time",
+      "posted_at": "2025-03-25",
+      "job_apply_link": "https://techcorp.jobs/frontend-developer"
+    },
+    {
+      "id": 2,
+      "title": "Backend Developer",
+      "company": "CodeWorks",
+      "city": "San Francisco",
+      "country": "USA",
+      "type": "Part-Time",
+      "posted_at": "2025-03-22",
+      "job_apply_link": "https://codeworks.jobs/backend-developer"
+    },
+    {
+      "id": 3,
+      "title": "UI/UX Designer",
+      "company": "Creative Studio",
+      "city": "London",
+      "country": "UK",
+      "type": "Contract",
+      "posted_at": "2025-03-24",
+      "job_apply_link": "https://creativestudio.jobs/uiux-designer"
+    },
+    {
+      "id": 4,
+      "title": "Security Officer",
+      "company": "SecureIT",
+      "city": "Abu Dhabi",
+      "country": "UAE",
+      "type": "Full-Time",
+      "posted_at": "2025-03-20",
+      "job_apply_link": "https://secureit.jobs/security-officer"
+    }
+  ]
+}
