@@ -1,0 +1,23 @@
+.trusted-clients-section {
+  background-color: #f8f9fa;
+}
+
+.marquee-container {
+  overflow: hidden;
+  padding: 20px 0;
+}
+
+.client-logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  margin: 0 15px;
+}
+
+.client-logo {
+  height: 60px;
+  width: auto;
+  max-width: 150px;
+  object-fit: contain;
+}
