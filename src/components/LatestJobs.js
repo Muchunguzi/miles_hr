@@ -1,126 +1,76 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 
 const LatestJobs = () => {
   const [latestJobs, setLatestJobs] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchJobs = async () => {
-      setLoading(true);
-      console.log("Fetching jobs from http://localhost:5000/jobs...");
+    const fetchLatestJobs = async () => {
       try {
-        const response = await fetch("http://localhost:5000/jobs");
-        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+        const response = await fetch("http://localhost:5000/jobs?_sort=posted_at&_order=desc");
         const data = await response.json();
-        console.log("Fetched data:", data);
-
-        // Sort by posted_date (descending) and take the latest 5
-        const sortedJobs = (data || [])
-          .sort((a, b) => new Date(b.posted_date) - new Date(a.posted_date))
-          .slice(0, 5);
-        
-        console.log("Sorted jobs:", sortedJobs);
-        setLatestJobs(sortedJobs);
+        console.log("Fetched Data:", data); // Debugging to see the fetched data
+        setLatestJobs(data.slice(0, 5)); // Show latest 5 jobs only
       } catch (error) {
         console.error("Error fetching jobs:", error);
-        setLatestJobs([]);
       } finally {
         setLoading(false);
       }
     };
-    fetchJobs();
+
+    fetchLatestJobs();
   }, []);
 
-  console.log("Rendering LatestJobs - loading:", loading, "latestJobs:", latestJobs);
+  const formatDate = (dateString) => {
+    if (!dateString) return "Date not available"; // Fallback for missing date
+    const options = { year: "numeric", month: "short", day: "numeric" };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
 
   return (
-    <div className="LatestJobs container my-5">
-      <h2 className="text-center fw-bold mb-5" style={{ color: "#1a1a1a", fontFamily: "'Poppins', sans-serif" }}>
-        Explore the Latest Opportunities
-      </h2>
+    <div className="container mt-5">
+      <h2 className="fw-bold text-center mb-4 text-primary">🚀 Top Job Openings</h2>
 
       {loading ? (
-        <div className="row g-4">
-          {[...Array(5)].map((_, i) => (
-            <div key={i} className="col-md-6 col-lg-4">
-              <div className="card h-100 border-0 shadow-sm">
-                <div className="card-body placeholder-glow">
-                  <h5 className="card-title placeholder col-6"></h5>
-                  <p className="card-text placeholder col-8"></p>
-                </div>
-              </div>
-            </div>
-          ))}
+        <div className="text-center">
+          <div className="spinner-grow text-primary" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+          <p className="mt-2">Fetching the latest jobs...</p>
         </div>
       ) : latestJobs.length > 0 ? (
         <div className="row g-4">
-          {latestJobs.map((job) => (
-            <div key={job.id} className="col-md-6 col-lg-4">
-              <div
-                className="card h-100 border-0 shadow-lg"
-                style={{
-                  background: "linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)",
-                  transition: "transform 0.3s ease, box-shadow 0.3s ease",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-10px)";
-                  e.currentTarget.style.boxShadow = "0 15px 30px rgba(0, 0, 0, 0.2)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.boxShadow = "0 10px 20px rgba(0, 0, 0, 0.1)";
-                }}
-              >
-                <div className="card-body">
-                  <h5 className="card-title fw-bold text-dark" style={{ fontSize: "1.25rem" }}>
-                    {job.title}
-                  </h5>
-                  <p className="card-text text-muted" style={{ fontSize: "0.95rem" }}>
-                    {job.employer_name} - {job.city}, {job.country}
-                  </p>
-                  <p className="text-muted small">
-                    Posted: {new Date(job.posted_date).toLocaleDateString()}
-                  </p>
+          {latestJobs.map((job, index) => (
+            <div key={index} className="col-md-6">
+              <div className="card shadow-lg border-0 p-3 job-card">
+                <div className="d-flex justify-content-between align-items-center">
+                  <h4 className="fw-bold">{job.title}</h4>
+                  {job.featured && <span className="badge bg-warning text-dark">Featured</span>}
                 </div>
-                <div className="card-footer bg-transparent border-0">
-                  <a
-                    href={job.job_apply_link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn btn-primary w-100"
-                    style={{
-                      background: "linear-gradient(90deg, #007bff, #0056b3)",
-                      border: "none",
-                      fontWeight: "500",
-                    }}
-                  >
-                    Apply Now
-                  </a>
-                </div>
+                <p className="text-muted mb-2">
+                  <i className="bi bi-calendar-event text-primary"></i> Posted on: {formatDate(job.posted_at)}
+                </p>
+                <p className="text-muted">
+                  <i className="bi bi-geo-alt-fill text-primary"></i> Location: {job.city || "City not available"}, {job.country || "Country not available"}
+                </p>
+                <p className="text-muted">
+                  <i className="bi bi-briefcase-fill text-secondary"></i> Type: {job.type || "Job type not specified"}
+                </p>
+                <a href={job.job_apply_link} target="_blank" rel="noopener noreferrer" className="btn btn-primary w-100">
+                  Apply Now
+                </a>
               </div>
             </div>
           ))}
         </div>
       ) : (
-        <p className="text-muted text-center">No jobs available right now.</p>
+        <p className="text-center text-muted">No jobs available at the moment.</p>
       )}
 
-      <div className="text-center mt-5">
-        <Link
-          to="/jobs"
-          className="btn btn-outline-dark btn-lg px-5 py-2"
-          style={{
-            fontFamily: "'Poppins', sans-serif",
-            fontWeight: "500",
-            borderRadius: "50px",
-            transition: "all 0.3s ease",
-          }}
-          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#1a1a1a", e.currentTarget.style.color = "#fff")}
-          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent", e.currentTarget.style.color = "#1a1a1a")}
-        >
-          More Jobs
-        </Link>
+      <div className="text-center mt-4">
+        <a href="/jobs" className="btn btn-success btn-lg px-4">
+          View All Jobs
+        </a>
       </div>
     </div>
   );

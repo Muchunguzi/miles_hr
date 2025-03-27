@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 
 const SearchJob = () => {
   const [keyword, setKeyword] = useState("");
-  const [location, setLocation] = useState("UAE");
+  const [city, setCity] = useState("Dubai"); // Default city
+  const [country, setCountry] = useState("UAE"); // Default country
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
@@ -10,10 +11,10 @@ const SearchJob = () => {
 
   // Function to fetch autocomplete suggestions
   const fetchSuggestions = async (input) => {
-    if (input.trim().length < 3) { 
-      setSuggestions([]); 
-      return; 
-    } 
+    if (input.trim().length < 3) {
+      setSuggestions([]);
+      return;
+    }
 
     try {
       const response = await fetch(`http://localhost:5000/jobs?q=${encodeURIComponent(input)}`);
@@ -49,12 +50,12 @@ const SearchJob = () => {
   };
 
   const handleSearch = async () => {
-    if (keyword.trim().length < 3) { 
-      setResults([]); 
-      return; 
-    } 
+    if (keyword.trim().length < 3) {
+      setResults([]);
+      return;
+    }
 
-    let query = `http://localhost:5000/jobs?q=${encodeURIComponent(keyword)}&location=${encodeURIComponent(location)}`;
+    let query = `http://localhost:5000/jobs?q=${encodeURIComponent(keyword)}&city=${encodeURIComponent(city)}&country=${encodeURIComponent(country)}`;
 
     setLoading(true);
     try {
@@ -79,7 +80,7 @@ const SearchJob = () => {
     <div className="SearchJob container mt-4">
       <h2 className="fw-bold mb-4">Find Jobs</h2>
       <div className="row g-3 mb-4">
-        <div className="col-md-5 position-relative">
+        <div className="col-md-4 position-relative">
           <input
             type="text"
             placeholder="Search for a job..."
@@ -104,10 +105,19 @@ const SearchJob = () => {
             </ul>
           )}
         </div>
-        <div className="col-md-4">
+        <div className="col-md-3">
+          <input
+            type="text"
+            placeholder="City"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+            className="form-control"
+          />
+        </div>
+        <div className="col-md-3">
           <select
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
+            value={country}
+            onChange={(e) => setCountry(e.target.value)}
             className="form-select"
           >
             <option value="UAE">UAE</option>
@@ -117,7 +127,7 @@ const SearchJob = () => {
             <option value="India">India</option>
           </select>
         </div>
-        <div className="col-md-3">
+        <div className="col-md-2">
           <button onClick={handleSearch} className="btn btn-primary w-100">
             Search
           </button>
@@ -133,7 +143,7 @@ const SearchJob = () => {
               <li key={index} className="list-group-item">
                 <h3 className="fw-bold">{job.title}</h3>
                 <p className="text-muted">
-                  {job.employer_name} - {job.city}, {job.country}
+                  {job.company} - {job.city}, {job.country}
                 </p>
                 <a
                   href={job.job_apply_link}
