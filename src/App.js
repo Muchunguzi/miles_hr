@@ -5,6 +5,10 @@ import HeroImage from './components/HeroImage';
 import SearchJob from './components/SearchJob';
 import LatestJobs from './components/LatestJobs';
 import TrustedClients from './components/TrustedClients';
+import AboutUsHome from './components/AboutUsHome';
+import ServicesOverview from './components/ServicesOverview';
+import FloatingSocials from './components/FloatingSocials';
+
 
 function App() {
   
@@ -17,6 +21,9 @@ function App() {
       <SearchJob Job = {Job}/>
       <LatestJobs />
       <TrustedClients />
+      <AboutUsHome />
+      <ServicesOverview />
+      <FloatingSocials />
     </div>
   );
 }
