@@ -1,36 +1,44 @@
-import React , {useState} from 'react';
-import './App.css';
+import React, { useState } from "react";
+import { Routes, Route } from "react-router-dom";
+import "./App.css";
 import Navbar from "./components/Navbar";
-import HeroImage from './components/HeroImage';
-import SearchJob from './components/SearchJob';
-import LatestJobs from './components/LatestJobs';
-import TrustedClients from './components/TrustedClients';
-import AboutUsHome from './components/AboutUsHome';
-import ServicesOverview from './components/ServicesOverview';
-import FloatingSocials from './components/FloatingSocials';
-import TestimonialsSuccess from './components/TestimonialsSuccess';
-import FooterSection from './components/FooterSection';
-import ChatBot from './components/ChatBot';
+import FooterSection from "./components/FooterSection";
+import FloatingSocials from "./components/FloatingSocials";
+import ChatBot from "./components/ChatBot";
 
+// Pages
+import Home from "./pages/Home";
+import AboutUs from "./pages/AboutUs";
+import OurServices from "./pages/OurServices";
+import CvPortal from "./pages/CvPortal";
+import ContactUs from "./pages/ContactUs";
 
 function App() {
-  
-  const [Job , getJob] = useState("")
+  const [Job, getJob] = useState("");
 
   return (
-    <div className="App">
+    <>
       <Navbar />
-      <HeroImage />
-      <SearchJob Job = {Job}/>
-      <LatestJobs />
-      <TrustedClients />
-      <AboutUsHome />
-      <ServicesOverview />
-      <FloatingSocials />
-      <TestimonialsSuccess />
-      <FooterSection />
-      <ChatBot />
-    </div>
+      <Routes>
+        {/* Home Page */}
+        <Route
+          path="/"
+          element={
+            <>
+              <Home />
+              <FloatingSocials /> 
+              <ChatBot />
+            </>
+          }
+        />
+        
+        {/* Other Pages */}
+        <Route path="/about-us" element={<AboutUs />} />
+        <Route path="/our-services" element={<OurServices />} />
+        <Route path="/cv-portal" element={<CvPortal />} />
+        <Route path="/contact-us" element={<ContactUs />} />
+      </Routes>
+    </>
   );
 }
 
