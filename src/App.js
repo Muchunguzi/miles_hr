@@ -10,6 +10,7 @@ import ServicesOverview from './components/ServicesOverview';
 import FloatingSocials from './components/FloatingSocials';
 import TestimonialsSuccess from './components/TestimonialsSuccess';
 import FooterSection from './components/FooterSection';
+import ChatBot from './components/ChatBot';
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
       <FloatingSocials />
       <TestimonialsSuccess />
       <FooterSection />
+      <ChatBot />
     </div>
   );
 }
