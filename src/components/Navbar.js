@@ -1,34 +1,54 @@
-import React from "react"
-import Home from "./Home";
-import AboutUs from "./AboutUs";
-import OurServices from "./OurServices";
-import ContactUs from "./ContactUs";
-import logo from "../assets/images/logo.png"
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import logo from "../assets/images/logo.png";
+import "./Navbar.css";
+import { FaBars } from "react-icons/fa";
 
 const Navbar = () => {
-   
-   return (
-      <div className="Navbar">
-          <img className="logo" src={logo} style={{width:"20%",height:"20%"}} alt="milesHR_logo_image" />
-          <ul>
-            <li>
-                <a href="/Home">Home</a>
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <nav className={`navbar navbar-expand-lg ${scrolled ? "scrolled" : ""}`}>
+      <div className="container">
+        <Link to="/" className="navbar-brand">
+          <img src={logo} alt="Miles HR Logo" className="logo" />
+        </Link>
+
+        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <FaBars />
+        </button>
+
+        <div className="collapse navbar-collapse" id="navbarNav">
+          <ul className="navbar-nav ms-auto">
+            <li className="nav-item">
+              <Link to="/" className="nav-link">Home</Link>
             </li>
-            <li>
-                <a href="/AboutUs">About Us</a>
+            <li className="nav-item">
+              <Link to="/aboutUs" className="nav-link">About Us</Link>
             </li>
-            <li>
-                <a href="/OurServices">Our Services</a>
+            <li className="nav-item">
+              <Link to="/services" className="nav-link">Our Services</Link>
             </li>
-            <li>
-                <a href="/CvPortal">CV Portal</a>
+            <li className="nav-item">
+              <Link to="/cv-portal" className="nav-link">CV Portal</Link>
             </li>
-            <li>
-            <a href="/ContactUs">Contact Us</a>
+            <li className="nav-item">
+              <Link to="/contact" className="nav-link">Contact Us</Link>
             </li>
           </ul>
+        </div>
       </div>
-   )
-}
+    </nav>
+  );
+};
 
-export default Navbar 
+export default Navbar;
