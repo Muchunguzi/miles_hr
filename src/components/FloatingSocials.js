@@ -17,7 +17,7 @@ const FloatingSocials = () => {
       <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="social-icon linkedin">
         <FaLinkedinIn />
       </a>
-      <a href="https://wa.me/YOURNUMBER" target="_blank" rel="noopener noreferrer" className="social-icon whatsapp">
+      <a href="https://wa.me/+971581182913" target="_blank" rel="noopener noreferrer" className="social-icon whatsapp">
         <FaWhatsapp />
       </a>
     </div>

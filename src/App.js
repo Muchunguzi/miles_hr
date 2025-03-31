@@ -8,6 +8,8 @@ import TrustedClients from './components/TrustedClients';
 import AboutUsHome from './components/AboutUsHome';
 import ServicesOverview from './components/ServicesOverview';
 import FloatingSocials from './components/FloatingSocials';
+import TestimonialsSuccess from './components/TestimonialsSuccess';
+import FooterSection from './components/FooterSection';
 
 
 function App() {
@@ -24,6 +26,8 @@ function App() {
       <AboutUsHome />
       <ServicesOverview />
       <FloatingSocials />
+      <TestimonialsSuccess />
+      <FooterSection />
     </div>
   );
 }
