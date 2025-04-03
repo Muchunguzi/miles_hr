@@ -1,0 +1,87 @@
+/* AboutUs.css */
+
+/* Hero Section */
+.hero-section {
+    background: url("../assets/images/cityheights.jpeg") no-repeat center;
+    background-size: cover;
+    background-position: center 30%; /* Adjust this percentage to align with the eyes */
+    height: 60vh; /* Adjust height as needed */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    position: relative;
+  }
+  
+  .hero-section h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+  }
+  
+  .hero-section p {
+    font-size: 1.2rem;
+  }
+  
+
+  /* Leadership Section */
+  .leadership-card {
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .leadership-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .leadership-card .card-body {
+    padding: 20px;
+  }
+  
+  /* Vision & Mission */
+  .vision-mission-section {
+    background: #f8f9fa;
+    padding: 60px 0;
+  }
+  
+  /* Timeline */
+  .timeline {
+    list-style: none;
+    padding: 0;
+    position: relative;
+  }
+  
+  .timeline li {
+    padding: 10px 20px;
+    border-left: 4px solid #007bff;
+    position: relative;
+    margin: 10px 0;
+    transition: all 0.3s ease;
+  }
+  
+  .timeline li:hover {
+    background: #f1f1f1;
+    border-left: 6px solid #0056b3;
+  }
+  
+  /* Call to Action */
+  .cta-section {
+    background: #007bff;
+    color: white;
+  }
+  
+  .cta-button {
+    font-size: 18px;
+    padding: 12px 25px;
+  }
+  
+  @media (max-width: 768px) {
+    .hero-section {
+      padding: 80px 0;
+    }
+  
+    .timeline li {
+      font-size: 14px;
+    }
+  }
+  
