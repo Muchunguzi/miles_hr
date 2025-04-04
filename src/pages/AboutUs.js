@@ -1,6 +1,7 @@
 import React from "react";
 import "./AboutUs.css";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import aine from "../assets/images/aine.jpg"
 
 const AboutUs = () => {
   return (
@@ -19,7 +20,7 @@ const AboutUs = () => {
         <Row>
           <Col md={6}>
             <Card className="leadership-card">
-              <Card.Img variant="top" src="../assets/images/aine.jpg" alt="Mellon Ainemukama" />
+              <Card.Img variant="top" src={aine} alt="Mellon Ainemukama" />
               <Card.Body>
                 <Card.Title>Mellon Ainemukama</Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">HR Director</Card.Subtitle>
