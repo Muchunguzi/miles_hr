@@ -1,0 +1,33 @@
+.parallax-bg {
+    background-image: url('../assets/images/cityheights.jpeg'); /* replace */
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding: 100px 0;
+  }
+  
+  .service-card {
+    border-radius: 20px;
+    transition: transform 0.3s ease;
+  }
+  
+  .service-card:hover {
+    transform: translateY(-8px);
+  }
+  
+  .service-icon {
+    color: #007bff;
+  }
+
+  .service-card {
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  
