@@ -4,8 +4,8 @@
 .hero-section {
     background: url("../assets/images/cityheights.jpeg") no-repeat center;
     background-size: cover;
-    background-position: center 30%; /* Adjust this percentage to align with the eyes */
-    height: 60vh; /* Adjust height as needed */
+    background-position: center 30%; 
+    height: 60vh; 
     display: flex;
     align-items: center;
     justify-content: center;
@@ -22,6 +22,16 @@
   .hero-section p {
     font-size: 1.2rem;
   }
+
+  .parallax-bg {
+    background-image: url('../assets/images/cityheights.jpeg'); 
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 100px 0;
+  }
+  
   
 
   /* Leadership Section */
@@ -74,6 +84,16 @@
     font-size: 18px;
     padding: 12px 25px;
   }
+
+  .timeline li {
+    background: white;
+    padding: 15px 20px;
+    border-left: 4px solid #007bff;
+    margin: 20px 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border-radius: 4px;
+  }
+  
   
   @media (max-width: 768px) {
     .hero-section {
