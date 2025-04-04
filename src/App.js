@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import Navbar from "./components/Navbar";
-import FooterSection from "./components/FooterSection";
 import FloatingSocials from "./components/FloatingSocials";
 import ChatBot from "./components/ChatBot";
 
@@ -14,7 +13,7 @@ import CvPortal from "./pages/CvPortal";
 import ContactUs from "./pages/ContactUs";
 
 function App() {
-  const [Job, getJob] = useState("");
+ 
 
   return (
     <>
