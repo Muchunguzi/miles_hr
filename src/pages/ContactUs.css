@@ -1,0 +1,58 @@
+.contact-page {
+    background: url("../assets/images/cityheights.jpeg") no-repeat center center/cover;
+    min-height: 100vh;
+    position: relative;
+  }
+  
+  .glass-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+    color: #fff;
+  }
+  
+  .floating-label {
+    position: relative;
+  }
+  
+  .floating-label input,
+  .floating-label textarea {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+  }
+  
+  .floating-label label {
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    color: #aaa;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    pointer-events: none;
+  }
+  
+  .floating-label input:focus + label,
+  .floating-label textarea:focus + label,
+  .floating-label input:not(:placeholder-shown) + label,
+  .floating-label textarea:not(:placeholder-shown) + label {
+    top: -12px;
+    left: 10px;
+    font-size: 0.75rem;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 0 5px;
+    border-radius: 5px;
+  }
+  
+  .contact-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .contact-page {
+    flex: 1;
+  }
+  
