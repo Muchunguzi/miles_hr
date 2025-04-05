@@ -1,0 +1,20 @@
+/* CvBuilder.css */
+
+.CVs_preview {
+    margin-top: 40px;
+  }
+  
+  /* Print tweaks if needed */
+  @media print {
+    .CVs_preview {
+      margin-top: 0;
+    }
+  
+    form,
+    button,
+    .btn,
+    .list-group {
+      display: none !important;
+    }
+  }
+  
