@@ -1,0 +1,107 @@
+/* CvBuilder.css */
+
+.CVs_preview {
+    margin-top: 40px;
+
+  }
+  
+  /* Print tweaks if needed */
+  @media print {
+    .CVs_preview {
+      margin-top: 0;
+    }
+  
+    form,
+    button,
+    .btn,
+    .list-group {
+      display: none !important;
+    }
+  }
+  
+  /* CvBuilder.css */
+
+/* General color scheme */
+body {
+    background-color: #f4f9ff; /* Soft white with a hint of blue */
+    color: #0d47a1; /* Deep blue for text */
+  }
+  
+  .container {
+    border: 1px solid #e3f2fd; /* Light blue borders */
+    border-radius: 8px;
+    background-color: #ffffff; /* White card background */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  }
+  
+  h2 {
+    color: #1565c0; /* Vibrant blue for headers */
+  }
+  
+  /* Form labels */
+  .form-label {
+    color: #0d47a1;
+    font-weight: bold;
+  }
+  
+  /* Buttons */
+  button {
+    background-color: #1976d2; /* Strong blue for buttons */
+    color: #ffffff;
+    border: none;
+  }
+  
+  button:hover {
+    background-color: #1565c0; /* Slightly darker blue */
+    color: #f4f9ff;
+  }
+  
+  /* Template Thumbnails */
+  .thumbnail-container {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .thumbnail {
+    width: 100px;
+    height: 140px;
+    border: 1px solid #90caf9; /* Blue border */
+    border-radius: 4px;
+    background-color: #e3f2fd; /* Light blue background */
+    cursor: pointer;
+    overflow: hidden;
+  }
+  
+  .thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  /* CV preview */
+  .CVs_preview {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #e3f2fd; /* Light blue background */
+    border: 1px solid #90caf9; /* Blue border for consistency */
+    border-radius: 8px;
+    background-color: #ffffff; /* White background */
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  
+  }
+  
+  /* Print tweaks */
+  @media print {
+    .CVs_preview {
+      margin-top: 0;
+    }
+  
+    form,
+    button,
+    .btn,
+    .list-group {
+      display: none !important;
+    }
+  }
