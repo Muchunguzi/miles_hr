@@ -1,8 +1,8 @@
-import React from "react";
-import "./Template2.css";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { forwardRef } from "react";
+import styles from "./Template2.module.css"; // Using CSS modules
+import "bootstrap/dist/css/bootstrap.min.css";
 
-const Template2CV = ({ formData }) => {
+const Template2CV = forwardRef(({ formData }, cvRef) => {
   const {
     photo,
     name,
@@ -12,27 +12,55 @@ const Template2CV = ({ formData }) => {
     address,
     website,
     education = [],
-    skills = [],
-    languages = [],
-    experience = [],
+    skills,
+    languages,
+    professionalExperience,
     references = [],
-    profile,
+    objective,
   } = formData;
 
+  // Normalize skills and languages (if provided as a comma-separated string)
+  const normalizedSkills = Array.isArray(skills)
+    ? skills
+    : typeof skills === "string" && skills
+    ? skills.split(",").map((s) => s.trim())
+    : [];
+
+  const normalizedLanguages = Array.isArray(languages)
+    ? languages
+    : typeof languages === "string" && languages
+    ? languages.split(",").map((l) => l.trim())
+    : [];
+
   return (
-    <div className="container-fluid my-4 shadow p-4 resume-template-2" style={{ backgroundColor: "#fff" }}>
+    <div ref={cvRef} className={`${styles["resume-template-2"]} container-fluid my-4 shadow p-4`}>
       <div className="row">
         {/* Left Side - Sidebar */}
         <div className="col-md-4 bg-primary text-white text-center py-4">
           <div className="mb-3">
-            {photo && (
-              <img
-                src={photo}
-                alt="Profile"
-                className="rounded-circle img-fluid"
-                style={{ width: "120px", height: "120px", objectFit: "cover", border: "3px solid #fff" }}
-              />
-            )}
+            <div
+              className="rounded-circle d-flex align-items-center justify-content-center bg-light mx-auto mb-3"
+              style={{
+                width: "120px",
+                height: "120px",
+                border: "3px solid #fff",
+                overflow: "hidden",
+                position: "relative",
+              }}
+            >
+              {photo ? (
+                <img
+                  src={photo}
+                  alt="Profile"
+                  className="img-fluid"
+                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                />
+              ) : (
+                <div className="text-muted" style={{ fontWeight: "bold" }}>
+                  Photo
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="mb-4">
@@ -46,9 +74,9 @@ const Template2CV = ({ formData }) => {
             <h6 className="text-uppercase fw-bold border-bottom pb-1">Education</h6>
             {education.map((edu, idx) => (
               <div key={idx} className="text-start">
-                <p className="mb-0 fw-bold">{edu.yearRange}</p>
-                <p className="mb-0">{edu.institution}</p>
-                <p className="mb-1">{edu.course}</p>
+                <p className="mb-0 fw-bold">{edu.year}</p>
+                <p className="mb-0">{edu.school}</p>
+                <p className="mb-1">{edu.degree}</p>
               </div>
             ))}
           </div>
@@ -56,7 +84,7 @@ const Template2CV = ({ formData }) => {
           <div className="mb-4 text-start">
             <h6 className="text-uppercase fw-bold border-bottom pb-1">Skills</h6>
             <ul className="ps-3">
-              {Array.isArray(skills) && skills.map((skill, idx) => (
+              {normalizedSkills.map((skill, idx) => (
                 <li key={idx}>{skill}</li>
               ))}
             </ul>
@@ -64,8 +92,8 @@ const Template2CV = ({ formData }) => {
 
           <div className="mb-4 text-start">
             <h6 className="text-uppercase fw-bold border-bottom pb-1">Languages</h6>
-            <ul className="ps-3">
-              {Array.isArray(languages) && languages.map((lang, idx) => (
+            <ul className={`ps-3 ${styles["languages-box"]}`}>
+              {normalizedLanguages.map((lang, idx) => (
                 <li key={idx}>{lang}</li>
               ))}
             </ul>
@@ -74,48 +102,38 @@ const Template2CV = ({ formData }) => {
 
         {/* Right Side - Main Content */}
         <div className="col-md-8 px-4 py-3">
-          <h2 className="fw-bold">{name?.split(" ")[0]} <span className="text-primary">{name?.split(" ")[1]}</span></h2>
+          <h2 className="fw-bold">
+            {name?.split(" ")[0]} <span className="text-primary">{name?.split(" ")[1]}</span>
+          </h2>
           <h5 className="text-secondary">{jobTitle}</h5>
 
           <div className="my-4">
             <h6 className="fw-bold text-uppercase border-bottom pb-1">Profile</h6>
-            <p>{profile}</p>
+            <p>{objective}</p>
           </div>
 
           <div className="my-4">
             <h6 className="fw-bold text-uppercase border-bottom pb-1">Work Experience</h6>
-            {Array.isArray(experience) && experience.map((exp, idx) => (
-              <div key={idx} className="mb-3">
-                <p className="mb-0 fw-bold d-flex justify-content-between">
-                  <span>{exp.company}</span>
-                  <span>{exp.yearRange}</span>
-                </p>
-                <p className="mb-0">{exp.position}</p>
-                <ul className="ps-3">
-                  {exp.details && exp.details.split('\n').map((line, index) => (
-                    <li key={index}>{line}</li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+            <p>{professionalExperience}</p>
           </div>
 
           <div className="my-4">
             <h6 className="fw-bold text-uppercase border-bottom pb-1">References</h6>
             <div className="row">
-              {Array.isArray(references) && references.map((ref, idx) => (
-                <div key={idx} className="col-sm-6 mb-2">
-                  <p className="mb-0 fw-bold">{ref.name}</p>
-                  <p className="mb-0">{ref.position}</p>
-                  <p className="mb-0">{ref.email}</p>
-                </div>
-              ))}
+              {Array.isArray(references) &&
+                references.map((refItem, idx) => (
+                  <div key={idx} className="col-sm-6 mb-2">
+                    <p className="mb-0 fw-bold">{refItem.name}</p>
+                    <p className="mb-0">{refItem.position}</p>
+                    <p className="mb-0">{refItem.email}</p>
+                  </div>
+                ))}
             </div>
           </div>
         </div>
       </div>
     </div>
   );
-};
+});
 
 export default Template2CV;

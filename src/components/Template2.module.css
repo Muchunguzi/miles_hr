@@ -1,0 +1,78 @@
+/* Container */
+.blue-template {
+  font-family: 'Segoe UI', sans-serif;
+  width: 210mm;
+  height: 297mm;
+  background-color: #ffffff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Sidebar */
+.sidebar {
+  background-color: #0a2540;
+}
+
+.profile-img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border: 4px solid #fff;
+}
+
+.placeholder-pic {
+  width: 120px;
+  height: 120px;
+  background-color: #ccc;
+  border-radius: 50%;
+}
+
+.section-title {
+  border-bottom: 2px solid #ffffff33;
+  padding-bottom: 4px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+
+/* Main Content */
+.main-content {
+  background-color: #f8f9fa;
+}
+
+.name-bold {
+  font-weight: 700;
+}
+
+.section {
+  margin-bottom: 20px;
+}
+
+.section-title {
+  border-bottom: 2px solid #0a2540;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+  font-size: 15px;
+  text-transform: uppercase;
+}
+
+/* Container styles for a professional, fixed-dimension resume */
+.resume-template-2 {
+  background-color: #fff;
+  width: 210mm;
+  height: 297mm;
+  margin-bottom: 20px;
+  position: relative;
+  box-sizing: border-box;
+}
+
+/* Adds spacing below the languages list */
+.languages-box {
+  margin-bottom: 20px;
+}
+
+/* Optional: Customize heading styles within the resume */
+.resume-template-2 h6 {
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+}
