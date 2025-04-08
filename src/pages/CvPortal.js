@@ -17,7 +17,9 @@ const CVGenerator = () => {
     phone: "",
     address: "",
     nationality: "",
-    professionalExperience: "",
+    experience: [
+        {company: "", yearRange: "", details: ""}
+    ],
     photo: "",
     jobPosition: "",
     education: [{ year: "", school: "", degree: "" }],
@@ -88,6 +90,25 @@ const CVGenerator = () => {
     const updated = formData.education.filter((_, idx) => idx !== index);
     setFormData({ ...formData, education: updated });
   };
+
+  const handleExperienceChange = (index, field, value) => {
+    const updated = [...formData.experience];
+    updated[index][field] = value;
+    setFormData({ ...formData, experience: updated });
+  };
+  
+  const addExperience = () => {
+    setFormData({
+      ...formData,
+      experience: [...formData.experience, { company: "", yearRange: "", details: "" }],
+    });
+  };
+  
+  const removeExperience = (index) => {
+    const updated = formData.experience.filter((_, idx) => idx !== index);
+    setFormData({ ...formData, experience: updated });
+  };
+  
 
   const nextTemplate = () => setCurrentIndex((prev) => (prev + 1) % Templates.length);
   const prevTemplate = () => setCurrentIndex((prev) => (prev - 1 + Templates.length) % Templates.length);
@@ -162,16 +183,50 @@ const CVGenerator = () => {
             </div>
 
             <div className="mb-3">
-              <label className="form-label">Professional Experience</label>
-              <textarea
-                name="professionalExperience"
-                value={formData.professionalExperience}
-                onChange={handleChange}
-                className="form-control"
-                rows={3}
-                required
-              />
-            </div>
+  <label className="form-label">Professional Experience</label>
+  {formData.experience.map((exp, index) => (
+    <div key={index} className="border rounded p-3 mb-2">
+      <input
+        type="text"
+        className="form-control mb-2"
+        placeholder="Company Name"
+        value={exp.company}
+        onChange={(e) => handleExperienceChange(index, "company", e.target.value)}
+      />
+      <input
+        type="text"
+        className="form-control mb-2"
+        placeholder="Year Range (e.g., 2021 - 2023)"
+        value={exp.yearRange}
+        onChange={(e) => handleExperienceChange(index, "yearRange", e.target.value)}
+      />
+ <textarea
+  name="details"
+  value={exp.details}
+  onChange={(e) => handleExperienceChange(index, "details", e.target.value)}
+  className="form-control"
+  rows={4}
+  placeholder="Write one responsibility per line. Press Enter to add a new line."
+/>
+
+      <button
+        type="button"
+        onClick={() => removeExperience(index)}
+        className="btn btn-sm btn-outline-danger"
+      >
+        Remove
+      </button>
+    </div>
+  ))}
+  <button
+    type="button"
+    onClick={addExperience}
+    className="btn btn-sm btn-primary mt-2"
+  >
+    Add Experience
+  </button>
+</div>
+
 
             <div className="mb-3">
               <label className="form-label">Education</label>

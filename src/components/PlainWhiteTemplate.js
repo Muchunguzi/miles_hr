@@ -1,6 +1,6 @@
 import React, { forwardRef } from "react";
 import { FaUserCircle } from "react-icons/fa";
-import './PlainWhiteTemplate.css';
+import "./PlainWhiteTemplate.css";
 
 const PlainWhiteTemplate = forwardRef(({ formData }, cvRef) => {
   return (
@@ -63,10 +63,24 @@ const PlainWhiteTemplate = forwardRef(({ formData }, cvRef) => {
 
         <hr className="my-3" />
 
-        {/* Experience */}
+        {/* Professional Experience */}
         <section className="mb-4">
-          <h3 className="font-semibold">Professional Experience</h3>
-          <p>{formData.professionalExperience}</p>
+          <h3 className="font-semibold mb-2">Professional Experience</h3>
+          {Array.isArray(formData.experience) && formData.experience.length > 0 ? (
+            formData.experience.map((exp, idx) => (
+              <div key={idx} className="mb-3">
+                <p className="font-semibold text-sm">{exp.company}</p>
+                <p className="text-xs italic text-gray-600">{exp.yearRange}</p>
+                <ol className="list-disc pl-5 text-sm text-gray-700">
+                  {exp.details?.split('\n').map((line, i) => (
+                    line.trim() && <li key={i}>{line}</li>
+                  ))}
+                </ol>
+              </div>
+            ))
+          ) : (
+            <p className="text-sm text-gray-500">No experience provided</p>
+          )}
         </section>
 
         <hr className="my-3" />

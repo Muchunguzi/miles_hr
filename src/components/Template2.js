@@ -14,7 +14,7 @@ const Template2CV = forwardRef(({ formData }, cvRef) => {
     education = [],
     skills,
     languages,
-    professionalExperience,
+    experience = [],
     references = [],
     objective,
   } = formData;
@@ -114,7 +114,7 @@ const Template2CV = forwardRef(({ formData }, cvRef) => {
 
           <div className="my-4">
             <h6 className="fw-bold text-uppercase border-bottom pb-1">Work Experience</h6>
-            <p>{professionalExperience}</p>
+            <p>{experience}</p>
           </div>
 
           <div className="my-4">
