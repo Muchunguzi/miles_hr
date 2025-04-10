@@ -83,11 +83,11 @@ const Template2CV = forwardRef(({ formData }, cvRef) => {
 
           <div className="mb-4 text-start">
             <h6 className="text-uppercase fw-bold border-bottom pb-1">Skills</h6>
-            <ul className="ps-3">
+            <ol className="ps-3">
               {normalizedSkills.map((skill, idx) => (
                 <li key={idx}>{skill}</li>
               ))}
-            </ul>
+            </ol>
           </div>
 
           <div className="mb-4 text-start">
@@ -113,8 +113,23 @@ const Template2CV = forwardRef(({ formData }, cvRef) => {
           </div>
 
           <div className="my-4">
-            <h6 className="fw-bold text-uppercase border-bottom pb-1">Work Experience</h6>
-            <p>{experience}</p>
+          <h6 className="fw-bold text-uppercase border-bottom pb-1">Experience</h6>
+          {Array.isArray(formData.experience) && formData.experience.length > 0 ? (
+          formData.experience.map((exp, idx) => (
+          <div key={idx} className="mb-3">
+           <p className="font-semibold text-sm">{exp.company}</p>
+           <p className="text-xs italic text-gray-600">{exp.yearRange}</p>
+           <ol className="list-disc pl-5 text-sm text-gray-700 whitespace-pre-wrap break-words">
+          {exp.details?.split('\n').map((line, i) =>
+          line.trim() ? <li key={i}>{line}</li> : null
+          )}
+      </ol>
+    </div>
+  ))
+) : (
+  <p className="text-sm text-gray-500">No experience provided</p>
+)}
+
           </div>
 
           <div className="my-4">
