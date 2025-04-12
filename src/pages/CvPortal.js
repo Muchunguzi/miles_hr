@@ -1,9 +1,10 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef , useEffect } from "react";
 import { useReactToPrint } from "react-to-print";
 import "./CvPortal.module.css";
 import PlainWhiteTemplate from "../components/PlainWhiteTemplate";
 import Template2 from "../components/Template2";
-import { overload } from "quill/core/quill";
+import { getAISuggestion } from "../utils/openai";
+import { fetchJobsData } from "../utils/fetchJobs";
 
 
 const jobTitles = [
@@ -29,6 +30,80 @@ const CVGenerator = () => {
     skills: "",
     languages: ""
   });
+
+  const [jobData, setJobData] = useState([]);
+  
+  //loading and caching the data
+  useEffect (() => {
+    const loadJobs = async () => {
+      try{
+        const jobs = await fetchJobsData();
+        setJobData(jobs);
+      } catch (err){
+        console.error("Job fetch error:", err);
+      }
+    };
+    loadJobs();
+  }, []);
+
+
+  useEffect (() => {
+  const generateSkills = async () => {
+    if(formData.jobPosition.length > 2){
+      const prompt = `List 5 key technical or soft skills required for a ${formData.jobPosition}.`;
+      const suggestion = await getAISuggestion(prompt);
+
+      setFormData((prev) => ({
+        ...prev,
+        skills: suggestion.replace(/^\d+\.\s*/gm, "").split("\n").join(", ")
+      }));
+    }
+  };
+
+     generateSkills();
+  }, [formData.jobPosition]);
+
+  useEffect(() => {
+    const generateObjective = async () => {
+      if (formData.jobPosition.length > 2 && formData.objective.trim() === "") {
+        const prompt = `Write a short professional objective for a ${formData.jobPosition} applying for a job.`;
+        const suggestion = await getAISuggestion(prompt);
+  
+        setFormData((prev) => ({
+          ...prev,
+          objective: suggestion
+        }));
+      }
+    };
+  
+    generateObjective();
+  }, [formData.jobPosition]);
+
+  useEffect(() => {
+    const generateResponsibilities = async () => {
+      const latestExp = formData.experience[formData.experience.length - 1];
+      if (
+        formData.jobPosition.length > 2 &&
+        latestExp &&
+        latestExp.details.trim() === ""
+      ) {
+        const prompt = `List 6 responsibilities for a ${formData.jobPosition} in bullet point format. Return only the responsibilities, one per line.`;
+        const suggestion = await getAISuggestion(prompt);
+  
+        const updatedExperience = [...formData.experience];
+        updatedExperience[updatedExperience.length - 1].details = suggestion;
+  
+        setFormData((prev) => ({
+          ...prev,
+          experience: updatedExperience,
+        }));
+      }
+    };
+  
+    generateResponsibilities();
+  }, [formData.jobPosition, formData.experience.length]);
+  
+  
 
   const [filteredJobs, setFilteredJobs] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -62,19 +137,42 @@ const CVGenerator = () => {
   const handleJobInput = (e) => {
     const value = e.target.value;
     setFormData({ ...formData, jobPosition: value });
+  
     setFilteredJobs(
-      value.length > 1
-        ? jobTitles.filter((job) =>
-            job.toLowerCase().includes(value.toLowerCase())
-          )
-        : []
+      jobData
+        .filter((job) =>
+          job.title.toLowerCase().includes(value.toLowerCase())
+        )
+        .map((j) => j.title)
     );
   };
+  
+  
 
   const selectJob = (job) => {
     setFormData({ ...formData, jobPosition: job });
+  
+    const match = jobData.find((j) => j.title.toLowerCase() === job.toLowerCase());
+  
+    if (match) {
+      setFormData((prev) => ({
+        ...prev,
+        jobPosition: job,
+        skills: match.skills.slice(0, 5).join(", "),
+        objective: match.objective,
+        experience: [
+          {
+            company: "Example Company",
+            yearRange: "2021 - 2024",
+            details: match.responsibilities.slice(0, 7).join("\n"),
+          },
+        ],
+      }));
+    }
+  
     setFilteredJobs([]);
   };
+  
 
   const handleEducationChange = (index, field, value) => {
     const updated = [...formData.education];
