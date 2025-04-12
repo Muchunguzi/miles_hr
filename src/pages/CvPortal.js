@@ -30,6 +30,7 @@ const CVGenerator = () => {
 
   const [filteredJobs, setFilteredJobs] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [showThumbnails, setShowThumbnails] = useState(false);
   const cvRef = useRef(null);
 
   const Templates = [PlainWhiteTemplate, Template2];
@@ -96,29 +97,27 @@ const CVGenerator = () => {
     updated[index][field] = value;
     setFormData({ ...formData, experience: updated });
   };
-  
+
   const addExperience = () => {
     setFormData({
       ...formData,
       experience: [...formData.experience, { company: "", yearRange: "", details: "" }],
     });
   };
-  
+
   const removeExperience = (index) => {
     const updated = formData.experience.filter((_, idx) => idx !== index);
     setFormData({ ...formData, experience: updated });
   };
-  
 
   const nextTemplate = () => setCurrentIndex((prev) => (prev + 1) % Templates.length);
   const prevTemplate = () => setCurrentIndex((prev) => (prev - 1 + Templates.length) % Templates.length);
 
   return (
-    <div className="container my-4">
-      <h2 className="mb-4">CV Generator</h2>
-      <div className="row">
-        {/* Input Section */}
-        <div className="col-md-6">
+    <div className="container-fluid px-3">
+      <h2 className="text-center fw-bold my-4">CV Generator</h2>
+      <div className="row g-4">
+        <div className="col-lg-6">
           <form>
             <div className="mb-3">
               <label className="form-label">Photo</label>
@@ -142,7 +141,7 @@ const CVGenerator = () => {
                 required
               />
               {filteredJobs.length > 0 && (
-                <ul className="list-group position-absolute w-100 z-1">
+                <ul className="list-group position-absolute w-100 zindex-3">
                   {filteredJobs.map((job, index) => (
                     <li
                       key={index}
@@ -183,50 +182,48 @@ const CVGenerator = () => {
             </div>
 
             <div className="mb-3">
-  <label className="form-label">Professional Experience</label>
-  {formData.experience.map((exp, index) => (
-    <div key={index} className="border rounded p-3 mb-2">
-      <input
-        type="text"
-        className="form-control mb-2"
-        placeholder="Company Name"
-        value={exp.company}
-        onChange={(e) => handleExperienceChange(index, "company", e.target.value)}
-      />
-      <input
-        type="text"
-        className="form-control mb-2"
-        placeholder="Year Range (e.g., 2021 - 2023)"
-        value={exp.yearRange}
-        onChange={(e) => handleExperienceChange(index, "yearRange", e.target.value)}
-      />
- <textarea
-  name="details"
-  value={exp.details}
-  onChange={(e) => handleExperienceChange(index, "details", e.target.value)}
-  className="form-control"
-  rows={4}
-  placeholder="Write one responsibility per line. Press Enter to add a new line."
-/>
-
-      <button
-        type="button"
-        onClick={() => removeExperience(index)}
-        className="btn btn-sm btn-outline-danger"
-      >
-        Remove
-      </button>
-    </div>
-  ))}
-  <button
-    type="button"
-    onClick={addExperience}
-    className="btn btn-sm btn-primary mt-2"
-  >
-    Add Experience
-  </button>
-</div>
-
+              <label className="form-label">Professional Experience</label>
+              {formData.experience.map((exp, index) => (
+                <div key={index} className="border rounded p-3 mb-2">
+                  <input
+                    type="text"
+                    className="form-control mb-2"
+                    placeholder="Company Name"
+                    value={exp.company}
+                    onChange={(e) => handleExperienceChange(index, "company", e.target.value)}
+                  />
+                  <input
+                    type="text"
+                    className="form-control mb-2"
+                    placeholder="Year Range (e.g., 2021 - 2023)"
+                    value={exp.yearRange}
+                    onChange={(e) => handleExperienceChange(index, "yearRange", e.target.value)}
+                  />
+                  <textarea
+                    name="details"
+                    value={exp.details}
+                    onChange={(e) => handleExperienceChange(index, "details", e.target.value)}
+                    className="form-control"
+                    rows={4}
+                    placeholder="Write one responsibility per line. Press Enter to add a new line."
+                  />
+                  <button
+                    type="button"
+                    onClick={() => removeExperience(index)}
+                    className="btn btn-sm btn-outline-danger mt-2"
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={addExperience}
+                className="btn btn-sm btn-primary mt-2"
+              >
+                Add Experience
+              </button>
+            </div>
 
             <div className="mb-3">
               <label className="form-label">Education</label>
@@ -269,21 +266,43 @@ const CVGenerator = () => {
           </form>
         </div>
 
-        {/* CV Preview Section */}
-        <div className="col-md-6">
-          <div className="CVs_preview">
-            <ActiveTemplate ref={cvRef} formData={formData} />
+        <div className="col-lg-6">
+          <div className="d-flex justify-content-between align-items-center mb-3">
+            <button className="btn btn-secondary" onClick={prevTemplate}>Previous Template</button>
+            <button className="btn btn-primary" onClick={nextTemplate}>Next Template</button>
+            <button className="btn btn-outline-dark" onClick={() => setShowThumbnails(true)}>See All Templates</button>
           </div>
-          <div className="d-flex justify-content-between align-items-center my-3">
-            <button className="btn btn-secondary" onClick={prevTemplate}>
-              Previous Template
-            </button>
-            <button className="btn btn-primary" onClick={nextTemplate}>
-              Next Template
-            </button>
+          <div className="CVs_preview p-3 bg-light rounded shadow">
+            <ActiveTemplate ref={cvRef} formData={formData} />
           </div>
         </div>
       </div>
+
+      {showThumbnails && (
+        <div className="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-75 d-flex justify-content-center align-items-center zindex-tooltip">
+          <div className="bg-white p-4 rounded shadow-lg w-75" style={{ maxHeight: '90vh', overflowY: 'auto' }}>
+            <h4 className="mb-3 text-center">Select a Template</h4>
+            <div className="d-flex flex-wrap gap-3 justify-content-center">
+              {Templates.map((Template, idx) => (
+                <div
+                  key={idx}
+                  className="border p-2 rounded cursor-pointer bg-light"
+                  style={{ width: 150, height: 200, overflow: 'hidden', cursor: 'pointer' }}
+                  onClick={() => {
+                    setCurrentIndex(idx);
+                    setShowThumbnails(false);
+                  }}
+                >
+                  <Template formData={formData} />
+                </div>
+              ))}
+            </div>
+            <div className="text-center mt-3">
+              <button className="btn btn-outline-danger" onClick={() => setShowThumbnails(false)}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
