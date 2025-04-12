@@ -4,6 +4,19 @@
     margin-top: 40px;
 
   }
+
+  /* In your CvPortal.module.css or a global CSS file */
+.a4-page {
+  width: 210mm; /* A4 width */
+  min-height: 297mm; /* A4 height */
+  max-height: 297mm; /* Strict boundary */
+  margin: 0 auto;
+  padding: 15mm; /* Standard print margin */
+  background: white;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* Scroll if content exceeds height */
+  box-sizing: border-box;
+}
   
   /* Print tweaks if needed */
   @media print {
@@ -89,6 +102,8 @@ body {
     background-color: #ffffff; /* White background */
     padding: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    overflow-y: auto;
+    height:fit-content;
   
   }
   
@@ -105,3 +120,5 @@ body {
       display: none !important;
     }
   }
+
+  

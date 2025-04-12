@@ -3,6 +3,8 @@ import { useReactToPrint } from "react-to-print";
 import "./CvPortal.module.css";
 import PlainWhiteTemplate from "../components/PlainWhiteTemplate";
 import Template2 from "../components/Template2";
+import { overload } from "quill/core/quill";
+
 
 const jobTitles = [
   "Software Engineer", "Factory Worker", "Customer Service Representative", "Security Guard",
@@ -272,8 +274,10 @@ const CVGenerator = () => {
             <button className="btn btn-primary" onClick={nextTemplate}>Next Template</button>
             <button className="btn btn-outline-dark" onClick={() => setShowThumbnails(true)}>See All Templates</button>
           </div>
-          <div className="CVs_preview p-3 bg-light rounded shadow">
-            <ActiveTemplate ref={cvRef} formData={formData} />
+          <div className="CVs_preview p-3 bg-light rounded shadow" style={{overflowY:'scroll'}}>
+           
+            <ActiveTemplate ref={cvRef} formData={formData}  />
+            
           </div>
         </div>
       </div>
