@@ -1,6 +1,7 @@
 import React from "react";
 import heroVid from "../assets/videos/heroVid.mp4";
 
+
 const HeroImage = () => {
   return (
     <div className="container text-center">

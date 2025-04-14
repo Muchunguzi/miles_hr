@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "./SearchJobs.css";
 
 const SearchJob = () => {
   const [keyword, setKeyword] = useState("");

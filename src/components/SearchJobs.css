@@ -1,0 +1,82 @@
+/* Universal mobile-first tweaks */
+.SearchJob h2 {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+  
+  .SearchJob .form-control,
+  .SearchJob .form-select,
+  .SearchJob .btn {
+    width: 100%;
+    font-size: 15px;
+  }
+  
+  /* Suggestions dropdown scroll on small screens */
+  .SearchJob ul.list-group {
+    max-height: 220px;
+    overflow-y: auto;
+  }
+  
+  /* Jobs result styling */
+  .SearchJob .list-group-item h3 {
+    font-size: 1.1rem;
+  }
+  .SearchJob .list-group-item p,
+  .SearchJob .list-group-item a {
+    font-size: 0.9rem;
+  }
+  
+  /* BREAKPOINT: tablets and smaller */
+  @media (max-width: 992px) {
+    .SearchJob .row {
+      flex-direction: column;
+    }
+  
+    .SearchJob .col-md-4,
+    .SearchJob .col-md-3,
+    .SearchJob .col-md-2 {
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+  }
+  
+  /* BREAKPOINT: medium phones */
+  @media (max-width: 768px) {
+    .SearchJob h2 {
+      font-size: 1.3rem;
+    }
+  
+    .SearchJob .btn {
+      padding: 0.5rem 0;
+    }
+  }
+  
+  /* BREAKPOINT: small phones */
+  @media (max-width: 576px) {
+    .SearchJob h2 {
+      font-size: 1.2rem;
+    }
+  
+    .SearchJob .list-group-item h3 {
+      font-size: 1rem;
+    }
+  
+    .SearchJob .list-group-item p,
+    .SearchJob .list-group-item a {
+      font-size: 0.85rem;
+    }
+  }
+  
+  /* BREAKPOINT: tiny devices */
+  @media (max-width: 480px) {
+    .SearchJob .form-control,
+    .SearchJob .form-select,
+    .SearchJob .btn {
+      font-size: 14px;
+    }
+  
+    .SearchJob .btn {
+      padding: 0.4rem 0.6rem;
+    }
+  }
+  
