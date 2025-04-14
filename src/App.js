@@ -4,6 +4,7 @@ import "./App.css";
 import Navbar from "./components/Navbar";
 import FloatingSocials from "./components/FloatingSocials";
 import ChatBot from "./components/ChatBot";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 // Pages
 import Home from "./pages/Home";

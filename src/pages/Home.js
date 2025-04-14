@@ -11,12 +11,12 @@ import FooterSection from "../components/FooterSection";
 import ChatBot from "../components/ChatBot";
 
 const Home = () => {
-  const [Job, getJob] = useState("");
+ 
 
   return (
     <div className="Home">
       <HeroImage />
-      <SearchJob Job={Job} />
+      <SearchJob  />
       <LatestJobs />
       <TrustedClients />
       <AboutUsHome />

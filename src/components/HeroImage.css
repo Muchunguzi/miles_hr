@@ -1,0 +1,32 @@
+.heroImage {
+    height: 100vh;
+    max-height: 100vh;
+    position: relative;
+  }
+  
+
+  .cta-button {
+    position: absolute;
+    bottom: 10%;
+    left: 5%;
+    z-index: 5;
+  }
+  
+  @media (max-width: 768px) {
+    .heroImage {
+      height: 50vh; /* Reduce height only for mobile */
+    }
+  
+    .cta-button {
+      bottom: 5%;
+      left: 50%;
+      transform: none;
+    }
+  
+    .cta-button .btn {
+        font-size: 12px;         /* Smaller readable size */
+        padding: 6px 12px;       /* More compact */
+        border-radius: 6px;
+    }
+  }
+  

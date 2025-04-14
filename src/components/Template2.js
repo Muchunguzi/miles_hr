@@ -2,6 +2,7 @@ import React, { forwardRef } from "react";
 import styles from "./Template2.module.css"; // Using CSS modules
 import "bootstrap/dist/css/bootstrap.min.css";
 
+
 const Template2CV = forwardRef(({ formData }, cvRef) => {
   const {
     photo,
@@ -33,7 +34,9 @@ const Template2CV = forwardRef(({ formData }, cvRef) => {
     : [];
 
   return (
-    <div ref={cvRef} className={`${styles["resume-template-2"]} container-fluid my-4 shadow p-4`}>
+  
+     
+    <div ref={cvRef} className={`${styles["resume-template-2"]} container-fluid my-4 shadow p-4`} style={{overflowY:'scroll'}}>
       <div className="row">
         {/* Left Side - Sidebar */}
         <div className="col-md-4 bg-primary text-white text-center py-4">
@@ -148,6 +151,7 @@ const Template2CV = forwardRef(({ formData }, cvRef) => {
         </div>
       </div>
     </div>
+  
   );
 });
 

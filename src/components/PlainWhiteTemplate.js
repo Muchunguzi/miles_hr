@@ -2,9 +2,10 @@ import React, { forwardRef } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import "./PlainWhiteTemplate.css";
 
+
 const PlainWhiteTemplate = forwardRef(({ formData }, cvRef) => {
   return (
-    <div className="plain-white-template">
+    <div className="plain-white-template" >
       <div
         ref={cvRef}
         className="cv_plain_white p-6"
@@ -100,6 +101,8 @@ const PlainWhiteTemplate = forwardRef(({ formData }, cvRef) => {
         </section>
       </div>
     </div>
+   
+
   );
 });
 
