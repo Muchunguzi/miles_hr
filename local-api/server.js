@@ -32,6 +32,23 @@ app.get("/api/jobs", (req, res) => {
   res.json({ data: filtered, success: true });
 });
 
+const fs = require("fs");
+const path = require("path");
+
+// New Route: GET full job definitions
+app.get("/api/job-details", (req, res) => {
+  const filePath = path.join(__dirname, "jobs.json");
+  fs.readFile(filePath, "utf-8", (err, data) => {
+    if (err) {
+      console.error("Error reading jobs.json:", err);
+      return res.status(500).json({ error: "Failed to load job data" });
+    }
+    const jobsData = JSON.parse(data);
+    res.json(jobsData);
+  });
+});
+
+
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
 });

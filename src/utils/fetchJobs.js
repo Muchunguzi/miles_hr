@@ -1,7 +1,10 @@
 // utils/fetchJobs.js
+
+
+
 export const fetchJobsData = async () => {
     try {
-      const response = await fetch('/data/jobs.json');
+        const response = await fetch(`${process.env.PUBLIC_URL}/data/jobs.json`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }

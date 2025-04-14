@@ -1,11 +1,10 @@
-import React, { useState, useRef , useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useReactToPrint } from "react-to-print";
+import { EditorContent, useEditor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
 import "./CvPortal.module.css";
 import PlainWhiteTemplate from "../components/PlainWhiteTemplate";
 import Template2 from "../components/Template2";
-import { getAISuggestion } from "../utils/openai";
-import { fetchJobsData } from "../utils/fetchJobs";
-
 
 const jobTitles = [
   "Software Engineer", "Factory Worker", "Customer Service Representative", "Security Guard",
@@ -21,7 +20,7 @@ const CVGenerator = () => {
     address: "",
     nationality: "",
     experience: [
-        {company: "", yearRange: "", details: ""}
+      { company: "", yearRange: "", details: "" }
     ],
     photo: "",
     jobPosition: "",
@@ -31,87 +30,55 @@ const CVGenerator = () => {
     languages: ""
   });
 
-  const [jobData, setJobData] = useState([]);
-  
-  //loading and caching the data
-  useEffect (() => {
-    const loadJobs = async () => {
-      try{
-        const jobs = await fetchJobsData();
-        setJobData(jobs);
-      } catch (err){
-        console.error("Job fetch error:", err);
-      }
-    };
-    loadJobs();
-  }, []);
-
-
-  useEffect (() => {
-  const generateSkills = async () => {
-    if(formData.jobPosition.length > 2){
-      const prompt = `List 5 key technical or soft skills required for a ${formData.jobPosition}.`;
-      const suggestion = await getAISuggestion(prompt);
-
-      setFormData((prev) => ({
-        ...prev,
-        skills: suggestion.replace(/^\d+\.\s*/gm, "").split("\n").join(", ")
-      }));
-    }
-  };
-
-     generateSkills();
-  }, [formData.jobPosition]);
-
-  useEffect(() => {
-    const generateObjective = async () => {
-      if (formData.jobPosition.length > 2 && formData.objective.trim() === "") {
-        const prompt = `Write a short professional objective for a ${formData.jobPosition} applying for a job.`;
-        const suggestion = await getAISuggestion(prompt);
-  
-        setFormData((prev) => ({
-          ...prev,
-          objective: suggestion
-        }));
-      }
-    };
-  
-    generateObjective();
-  }, [formData.jobPosition]);
-
-  useEffect(() => {
-    const generateResponsibilities = async () => {
-      const latestExp = formData.experience[formData.experience.length - 1];
-      if (
-        formData.jobPosition.length > 2 &&
-        latestExp &&
-        latestExp.details.trim() === ""
-      ) {
-        const prompt = `List 6 responsibilities for a ${formData.jobPosition} in bullet point format. Return only the responsibilities, one per line.`;
-        const suggestion = await getAISuggestion(prompt);
-  
-        const updatedExperience = [...formData.experience];
-        updatedExperience[updatedExperience.length - 1].details = suggestion;
-  
-        setFormData((prev) => ({
-          ...prev,
-          experience: updatedExperience,
-        }));
-      }
-    };
-  
-    generateResponsibilities();
-  }, [formData.jobPosition, formData.experience.length]);
-  
-  
-
   const [filteredJobs, setFilteredJobs] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showThumbnails, setShowThumbnails] = useState(false);
+  const [autoJobs, setAutoJobs] = useState([]);
   const cvRef = useRef(null);
+
+  const editor = useEditor({
+    extensions: [StarterKit],
+    content: "",
+    onUpdate: ({ editor }) => {
+      setFormData((prev) => ({ ...prev, objective: editor.getHTML() }));
+    },
+  });
 
   const Templates = [PlainWhiteTemplate, Template2];
   const ActiveTemplate = Templates[currentIndex];
+
+  useEffect(() => {
+    const fetchAutoJobs = async () => {
+      try {
+        const res = await fetch("http://localhost:5000/jobsAutoCompletions");
+        const data = await res.json();
+        setAutoJobs(data);
+      } catch (err) {
+        console.error("Auto-fill fetch error:", err);
+      }
+    };
+
+    fetchAutoJobs();
+  }, []);
+
+  const handleAutoFillFromJob = (jobTitle) => {
+    const match = autoJobs.find(job => job.title.toLowerCase() === jobTitle.toLowerCase());
+    if (match) {
+      setFormData((prev) => ({
+        ...prev,
+        skills: match.skills.join(", "),
+        objective: match.objective,
+        experience: [
+          {
+            company: "",
+            yearRange: "",
+            details: match.responsibilities.join("\n")
+          }
+        ]
+      }));
+      if (editor) editor.commands.setContent(match.objective);
+    }
+  };
 
   const handlePrint = useReactToPrint({
     contentRef: cvRef,
@@ -137,42 +104,20 @@ const CVGenerator = () => {
   const handleJobInput = (e) => {
     const value = e.target.value;
     setFormData({ ...formData, jobPosition: value });
-  
     setFilteredJobs(
-      jobData
-        .filter((job) =>
-          job.title.toLowerCase().includes(value.toLowerCase())
-        )
-        .map((j) => j.title)
+      value.length > 1
+        ? jobTitles.filter((job) =>
+            job.toLowerCase().includes(value.toLowerCase())
+          )
+        : []
     );
   };
-  
-  
 
   const selectJob = (job) => {
     setFormData({ ...formData, jobPosition: job });
-  
-    const match = jobData.find((j) => j.title.toLowerCase() === job.toLowerCase());
-  
-    if (match) {
-      setFormData((prev) => ({
-        ...prev,
-        jobPosition: job,
-        skills: match.skills.slice(0, 5).join(", "),
-        objective: match.objective,
-        experience: [
-          {
-            company: "Example Company",
-            yearRange: "2021 - 2024",
-            details: match.responsibilities.slice(0, 7).join("\n"),
-          },
-        ],
-      }));
-    }
-  
     setFilteredJobs([]);
+    handleAutoFillFromJob(job);
   };
-  
 
   const handleEducationChange = (index, field, value) => {
     const updated = [...formData.education];
@@ -223,146 +168,58 @@ const CVGenerator = () => {
               <label className="form-label">Photo</label>
               <input type="file" accept="image/*" onChange={handlePhotoUpload} className="form-control" />
             </div>
-
             <div className="mb-3">
               <label className="form-label">Name</label>
               <input type="text" name="name" value={formData.name} onChange={handleChange} className="form-control" required />
             </div>
-
             <div className="mb-3 position-relative">
               <label className="form-label">Job Position</label>
-              <input
-                type="text"
-                name="jobPosition"
-                value={formData.jobPosition}
-                onChange={handleJobInput}
-                placeholder="Type to get job suggestions"
-                className="form-control"
-                required
-              />
+              <input type="text" name="jobPosition" value={formData.jobPosition} onChange={handleJobInput} className="form-control" placeholder="Type to get job suggestions" required />
               {filteredJobs.length > 0 && (
-                <ul className="list-group position-absolute w-100 zindex-3">
+                <ul className="list-group position-absolute w-100 z-1">
                   {filteredJobs.map((job, index) => (
-                    <li
-                      key={index}
-                      className="list-group-item list-group-item-action"
-                      onClick={() => selectJob(job)}
-                    >
+                    <li key={index} className="list-group-item list-group-item-action" onClick={() => selectJob(job)}>
                       {job}
                     </li>
                   ))}
                 </ul>
               )}
             </div>
-
             {["email", "phone", "address", "nationality", "skills", "languages"].map((field) => (
               <div className="mb-3" key={field}>
                 <label className="form-label">{field.charAt(0).toUpperCase() + field.slice(1)}</label>
-                <input
-                  type="text"
-                  name={field}
-                  value={formData[field]}
-                  onChange={handleChange}
-                  className="form-control"
-                  required
-                />
+                <input type="text" name={field} value={formData[field]} onChange={handleChange} className="form-control" required />
               </div>
             ))}
-
             <div className="mb-3">
               <label className="form-label">Objective</label>
-              <textarea
-                name="objective"
-                value={formData.objective}
-                onChange={handleChange}
-                className="form-control"
-                rows={3}
-                required
-              />
+              <EditorContent editor={editor} className="border p-2 bg-white" />
             </div>
-
             <div className="mb-3">
               <label className="form-label">Professional Experience</label>
               {formData.experience.map((exp, index) => (
                 <div key={index} className="border rounded p-3 mb-2">
-                  <input
-                    type="text"
-                    className="form-control mb-2"
-                    placeholder="Company Name"
-                    value={exp.company}
-                    onChange={(e) => handleExperienceChange(index, "company", e.target.value)}
-                  />
-                  <input
-                    type="text"
-                    className="form-control mb-2"
-                    placeholder="Year Range (e.g., 2021 - 2023)"
-                    value={exp.yearRange}
-                    onChange={(e) => handleExperienceChange(index, "yearRange", e.target.value)}
-                  />
-                  <textarea
-                    name="details"
-                    value={exp.details}
-                    onChange={(e) => handleExperienceChange(index, "details", e.target.value)}
-                    className="form-control"
-                    rows={4}
-                    placeholder="Write one responsibility per line. Press Enter to add a new line."
-                  />
-                  <button
-                    type="button"
-                    onClick={() => removeExperience(index)}
-                    className="btn btn-sm btn-outline-danger mt-2"
-                  >
-                    Remove
-                  </button>
+                  <input type="text" className="form-control mb-2" placeholder="Company Name" value={exp.company} onChange={(e) => handleExperienceChange(index, "company", e.target.value)} />
+                  <input type="text" className="form-control mb-2" placeholder="Year Range (e.g., 2021 - 2023)" value={exp.yearRange} onChange={(e) => handleExperienceChange(index, "yearRange", e.target.value)} />
+                  <textarea className="form-control mb-2" rows={4} placeholder="Responsibilities (1 per line)" value={exp.details} onChange={(e) => handleExperienceChange(index, "details", e.target.value)} />
+                  <button type="button" className="btn btn-sm btn-outline-danger" onClick={() => removeExperience(index)}>Remove</button>
                 </div>
               ))}
-              <button
-                type="button"
-                onClick={addExperience}
-                className="btn btn-sm btn-primary mt-2"
-              >
-                Add Experience
-              </button>
+              <button type="button" className="btn btn-sm btn-primary mt-2" onClick={addExperience}>Add Experience</button>
             </div>
-
             <div className="mb-3">
               <label className="form-label">Education</label>
               {formData.education.map((edu, index) => (
                 <div key={index} className="border rounded p-3 mb-2">
-                  <input
-                    type="text"
-                    className="form-control mb-2"
-                    placeholder="Year"
-                    value={edu.year}
-                    onChange={(e) => handleEducationChange(index, "year", e.target.value)}
-                  />
-                  <input
-                    type="text"
-                    className="form-control mb-2"
-                    placeholder="School"
-                    value={edu.school}
-                    onChange={(e) => handleEducationChange(index, "school", e.target.value)}
-                  />
-                  <input
-                    type="text"
-                    className="form-control mb-2"
-                    placeholder="Degree"
-                    value={edu.degree}
-                    onChange={(e) => handleEducationChange(index, "degree", e.target.value)}
-                  />
-                  <button type="button" onClick={() => removeEducation(index)} className="btn btn-sm btn-outline-danger">
-                    Remove
-                  </button>
+                  <input type="text" className="form-control mb-2" placeholder="Year" value={edu.year} onChange={(e) => handleEducationChange(index, "year", e.target.value)} />
+                  <input type="text" className="form-control mb-2" placeholder="School" value={edu.school} onChange={(e) => handleEducationChange(index, "school", e.target.value)} />
+                  <input type="text" className="form-control mb-2" placeholder="Degree" value={edu.degree} onChange={(e) => handleEducationChange(index, "degree", e.target.value)} />
+                  <button type="button" onClick={() => removeEducation(index)} className="btn btn-sm btn-outline-danger">Remove</button>
                 </div>
               ))}
-              <button type="button" onClick={addEducation} className="btn btn-sm btn-primary mt-2">
-                Add Education
-              </button>
+              <button type="button" onClick={addEducation} className="btn btn-sm btn-primary mt-2">Add Education</button>
             </div>
-
-            <button type="button" onClick={handlePrint} className="btn btn-success mb-4">
-              Print CV
-            </button>
+            <button type="button" onClick={handlePrint} className="btn btn-success mb-4">Print CV</button>
           </form>
         </div>
 
@@ -372,10 +229,8 @@ const CVGenerator = () => {
             <button className="btn btn-primary" onClick={nextTemplate}>Next Template</button>
             <button className="btn btn-outline-dark" onClick={() => setShowThumbnails(true)}>See All Templates</button>
           </div>
-          <div className="CVs_preview p-3 bg-light rounded shadow" style={{overflowY:'scroll'}}>
-           
-            <ActiveTemplate ref={cvRef} formData={formData}  />
-            
+          <div className="CVs_preview p-3 bg-light rounded shadow">
+            <ActiveTemplate ref={cvRef} formData={formData} />
           </div>
         </div>
       </div>
