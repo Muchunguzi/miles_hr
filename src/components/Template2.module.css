@@ -1,3 +1,7 @@
+@media print {
+  
+
+
 /* Container */
 .blue-template {
   font-family: 'Segoe UI', sans-serif;
@@ -63,6 +67,7 @@
   margin-bottom: 20px;
   position: relative;
   box-sizing: border-box;
+  page-break-after: always;
 }
 
 /* Adds spacing below the languages list */
@@ -76,3 +81,7 @@
   letter-spacing: 0.05em;
   margin-bottom: 10px;
 }
+
+}
+
+

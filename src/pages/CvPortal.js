@@ -5,6 +5,8 @@ import StarterKit from "@tiptap/starter-kit";
 import "./CvPortal.module.css";
 import PlainWhiteTemplate from "../components/PlainWhiteTemplate";
 import Template2 from "../components/Template2";
+import "../components/Template2.module.css"
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const jobTitles = [
   "Software Engineer", "Factory Worker", "Customer Service Representative", "Security Guard",

@@ -9,6 +9,7 @@ import FloatingSocials from "../components/FloatingSocials";
 import TestimonialsSuccess from "../components/TestimonialsSuccess";
 import FooterSection from "../components/FooterSection";
 import ChatBot from "../components/ChatBot";
+import './Home.css';
 
 const Home = () => {
  

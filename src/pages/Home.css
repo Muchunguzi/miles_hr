@@ -1,0 +1,52 @@
+
+/* Very Small Phones */
+@media (max-width: 359px) {
+
+    .Home{
+        width: 100vw;
+        margin: 0 auto;
+    }
+  
+}
+
+/* Small Phones */
+@media (max-width: 479px) {
+
+    .App{
+        background-color: green;
+    }
+    
+    .Home{
+        width: 100vw;
+        border: 1px solid black;
+        margin: 0 auto;
+        overflow-y: hidden;
+        overflow: hidden;
+    }
+
+    .cta-button{
+      
+      margin-left: -12.5%;
+      margin-bottom: -10%;
+     
+    }
+
+    a.btn{
+        font-size: xx-small;
+    }
+
+  
+}
+
+/* Medium Phones */
+@media (max-width: 599px) {}
+
+/* Tablets Portrait */
+@media (max-width: 767px) {}
+
+/* Tablets Landscape */
+@media (max-width: 991px) {}
+
+/* Laptops */
+@media (max-width: 1200px) {}
+
