@@ -73,6 +73,8 @@
     background: #f1f1f1;
     border-left: 6px solid #0056b3;
   }
+
+
   
   /* Call to Action */
   .cta-section {
@@ -104,4 +106,16 @@
       font-size: 14px;
     }
   }
-  
+   
+  @media (max-width : 479px){
+    .timeline{
+      
+      display: grid;
+      grid-template-columns: auto;
+    }
+    .about-us{
+      margin: 0 auto;
+      overflow-y:hidden ;
+      overflow-x: hidden;
+    }
+  }

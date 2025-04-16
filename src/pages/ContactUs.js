@@ -108,7 +108,7 @@ const ContactUs = () => {
             src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d116185.21812868713!2d54.374213!3d24.492799!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5e6710c23115f7%3A0x24ab3e9c40d391d1!2sMiles%20Human%20Resource%20Consultancy!5e0!3m2!1sen!2sae!4v1743805736242!5m2!1sen!2sae" 
             width="600" 
             height="450" 
-            style={{border: "0"}}
+            style={{border: "0" , overflow:"hidden"}}
             allowfullscreen="" 
             loading="lazy" 
             referrerpolicy="no-referrer-when-downgrade">

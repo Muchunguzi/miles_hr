@@ -11,14 +11,9 @@
 
 /* Small Phones */
 @media (max-width: 479px) {
-
-    .App{
-        background-color: green;
-    }
     
     .Home{
         width: 100vw;
-        border: 1px solid black;
         margin: 0 auto;
         overflow-y: hidden;
         overflow: hidden;
@@ -26,14 +21,17 @@
 
     .cta-button{
       
-      margin-left: -12.5%;
-      margin-bottom: -10%;
-     
+      position: absolute;
+      bottom: -15px;
+      left: -15px;
+      transform: scale(0.8);
     }
 
     a.btn{
         font-size: xx-small;
     }
+
+
 
   
 }

@@ -10,3 +10,10 @@
     backdrop-filter: blur(8px);
   }
   
+
+  @media (max-width : 479px){
+   div.modal-content{
+      
+      overflow: hidden;
+    }
+  }

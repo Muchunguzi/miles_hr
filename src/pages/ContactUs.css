@@ -55,4 +55,10 @@
   .contact-page {
     flex: 1;
   }
+
+  @media (maxwidth : 479px){
+    .contact-page{
+      overflow: hidden;
+    }
+  }
   
