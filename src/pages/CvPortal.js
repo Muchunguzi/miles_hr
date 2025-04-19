@@ -7,6 +7,7 @@ import PlainWhiteTemplate from "../components/PlainWhiteTemplate";
 import Template2 from "../components/Template2";
 import "../components/Template2.module.css"
 import "bootstrap/dist/css/bootstrap.min.css";
+import html2pdf from "html2pdf.js";
 
 const jobTitles = [
   "Software Engineer", "Factory Worker", "Customer Service Representative", "Security Guard",
@@ -15,6 +16,17 @@ const jobTitles = [
 ];
 
 const CVGenerator = () => {
+  
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+  
+
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -81,12 +93,34 @@ const CVGenerator = () => {
       if (editor) editor.commands.setContent(match.objective);
     }
   };
-
-  const handlePrint = useReactToPrint({
-    contentRef: cvRef,
+  
+  const reactToPrint = useReactToPrint({
+    contentRef:cvRef,
     documentTitle: "My_CV",
     onPrintError: (location, error) => console.error("Print Error:", location, error),
   });
+
+  const downloadAsPDF = () => {
+    const element = cvRef.current;
+    const options = {
+      margin: 0,
+      filename: "My_CV_Mobile.pdf",
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+    };
+    html2pdf().set(options).from(element).save();
+  };
+  
+  
+  const handlePrint = () => {
+    if (isMobile) {
+      downloadAsPDF(); // mobile gets a PDF
+    } else {
+      reactToPrint(); // desktop uses react-to-print
+    }
+  };
+  
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
