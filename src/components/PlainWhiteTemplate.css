@@ -3,6 +3,7 @@
     margin: auto;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
+   
   }
   
   .plain-white-template {
@@ -14,5 +15,29 @@
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+  
+  @media screen and (max-width: 479px){
+    .cv-preview-wrapper {
+      transform: scale(0.55);
+      transform-origin: top center;
+      width: 20%;
+      margin: 0 auto;
+      overflow-x: hidden;
+      transition: transform 0.3s ease;
+      font-size: 5px;
+    }
+   div.cv_plain_white.p6{
+      transform: scale(0.2);
+      border: 2px solid green;
+   }
+     
+  
+  }
+  @media print{
+    .cv_plain_white{
+      width: 210mm !important;
+      height: 297mm !important;
+    }
   }
   

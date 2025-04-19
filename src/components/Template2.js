@@ -39,7 +39,7 @@ const Template2CV = forwardRef(({ formData }, cvRef) => {
     <div ref={cvRef} className={`${styles["resume-template-2"]} container-fluid my-4 shadow p-4`} >
       <div style={{display:"flex", flexDirection:"row"}} >
         {/* Left Side - Sidebar */}
-        <div className="col-md-4 bg-primary text-white text-center py-4">
+        <div className="col-md-4 blue bg-primary text-white text-center py-4">
           <div className="mb-3">
             <div
               className="rounded-circle d-flex align-items-center justify-content-center bg-light mx-auto mb-3"

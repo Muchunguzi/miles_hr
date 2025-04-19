@@ -16,6 +16,7 @@
     "@tiptap/starter-kit": "^2.11.7",
     "bootstrap": "^5.3.3",
     "framer-motion": "^12.6.3",
+    "html2pdf.js": "^0.10.3",
     "lodash.clonedeep": "^4.5.0",
     "pagedjs": "^0.4.3",
     "quill": "^2.0.3",

@@ -121,4 +121,21 @@ body {
     }
   }
 
+  @media screen and (max-width: 479px){
+    .cv-preview-wrapper {
+      transform: scale(0.55);
+      transform-origin: top center;
+      width: 20%;
+      margin: 0 auto;
+      overflow-x: hidden;
+      transition: transform 0.3s ease;
+      font-size: 5px;
+    }
+   div.cv_plain_white{
+      transform: scale(0.2);
+   }
+     
+  
+  }
+  
   
