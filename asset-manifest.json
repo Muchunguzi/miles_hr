@@ -1,7 +1,9 @@
 {
   "files": {
     "main.css": "/miles_hr/static/css/main.42fc52f9.css",
-    "main.js": "/miles_hr/static/js/main.828955a9.js",
+    "main.js": "/miles_hr/static/js/main.9ff1c412.js",
+    "static/js/977.cb133f25.chunk.js": "/miles_hr/static/js/977.cb133f25.chunk.js",
+    "static/js/732.d82c5366.chunk.js": "/miles_hr/static/js/732.d82c5366.chunk.js",
     "static/js/453.0e773e67.chunk.js": "/miles_hr/static/js/453.0e773e67.chunk.js",
     "static/media/heroVid.mp4": "/miles_hr/static/media/heroVid.21628c35aaf1f8f4ad52.mp4",
     "static/media/emmanuelWilliams.JPG": "/miles_hr/static/media/emmanuelWilliams.4c3139eb568254262f8e.JPG",
@@ -13,11 +15,13 @@
     "static/media/charles.jpg": "/miles_hr/static/media/charles.8e5be49cc80b7eb2c86f.jpg",
     "index.html": "/miles_hr/index.html",
     "main.42fc52f9.css.map": "/miles_hr/static/css/main.42fc52f9.css.map",
-    "main.828955a9.js.map": "/miles_hr/static/js/main.828955a9.js.map",
+    "main.9ff1c412.js.map": "/miles_hr/static/js/main.9ff1c412.js.map",
+    "977.cb133f25.chunk.js.map": "/miles_hr/static/js/977.cb133f25.chunk.js.map",
+    "732.d82c5366.chunk.js.map": "/miles_hr/static/js/732.d82c5366.chunk.js.map",
     "453.0e773e67.chunk.js.map": "/miles_hr/static/js/453.0e773e67.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.42fc52f9.css",
-    "static/js/main.828955a9.js"
+    "static/js/main.9ff1c412.js"
   ]
 }
