@@ -231,6 +231,7 @@ const CVGenerator = () => {
             <button className="btn btn-primary" onClick={nextTemplate}>Next Template</button>
             <button className="btn btn-outline-dark" onClick={() => setShowThumbnails(true)}>See All Templates</button>
           </div>
+          
           <div className="CVs_preview p-3 bg-light rounded shadow">
             <ActiveTemplate ref={cvRef} formData={formData} />
           </div>

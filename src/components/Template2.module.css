@@ -1,6 +1,3 @@
-@media print {
-  
-
 
 /* Container */
 .blue-template {
@@ -62,12 +59,11 @@
 /* Container styles for a professional, fixed-dimension resume */
 .resume-template-2 {
   background-color: #fff;
-  width: 210mm;
-  height: 297mm;
   margin-bottom: 20px;
   position: relative;
   box-sizing: border-box;
   page-break-after: always;
+  
 }
 
 /* Adds spacing below the languages list */
@@ -80,8 +76,33 @@
   font-size: 1rem;
   letter-spacing: 0.05em;
   margin-bottom: 10px;
+  
 }
 
+@media (max-width: 479px) {
+  .col-md-4{
+    transform: scale(0.5);
+
+  }
+  .CVs_preview{
+   transform: scale(0.5);
+  
+  }
+  .resume-template-2 {
+    font-size: xx-small;
+    width: fit-content;
+    transform: scale(0.9);
+    margin-left: -10%;
+  }
+
 }
+
+@media print{
+  .resume-template-2{
+    width: 210mm !important;
+    height: 297mm !important;
+  }
+}
+
 
 

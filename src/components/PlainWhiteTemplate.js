@@ -3,13 +3,17 @@ import { FaUserCircle } from "react-icons/fa";
 import "./PlainWhiteTemplate.css";
 
 
+
 const PlainWhiteTemplate = forwardRef(({ formData }, cvRef) => {
+
+
+
   return (
     <div className="plain-white-template" >
       <div
         ref={cvRef}
-        className="cv_plain_white p-6"
-        style={{ width: "210mm", height: "297mm" }}
+        className="cv_plain_white p-6 container-fluid"
+        
       >
         {/* Profile Section */}
         <div className="text-center mb-6">
